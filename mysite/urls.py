@@ -13,11 +13,23 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
+from django.contrib.auth.models import User
+from django.db import models
 from django.urls import path
+
+User.add_to_class('is_verified', models.BooleanField(default=True))
+
+
 from django_otp.admin import OTPAdminSite
 
-admin.site.__class__ = OTPAdminSite
+class MyOTPAdminSite(OTPAdminSite):
+    def has_permission(self, request):
+        return request.user.is_active and request.user.is_verified
+
+admin.site.__class__ = MyOTPAdminSite
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

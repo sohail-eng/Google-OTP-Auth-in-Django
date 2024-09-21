@@ -24,8 +24,12 @@ pip3 install -r requirements.txt
 python3 manage.py migrate
 
 # creates the site admin user
-python3 manage.py createsuperuser
+python manage.py createsuperuser
+
 # enter username, email, password of your choice
+
+create token for firt time login
+python manage.py addstatictoken <username>
 
 # runs the web application
 python3 manage.py runserver
